@@ -2,6 +2,7 @@ package com.tax.calculator;
 
 import com.tax.calculator.closed.position.entity.ClosedPosition;
 import com.tax.calculator.report.ReportWriter;
+import com.tax.calculator.utils.FileReportLoader;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
@@ -15,12 +16,17 @@ public class CalculationRunner {
 
     private static final DateTimeFormatter FILE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
 
-    private static final String BROKER_REPORT_PATH = "/Users/artemkolesnikov/Downloads/1317768_2023-05-15 23_59_59_2026-01-31 23_59_59_all.xlsx";
-    private static final String RATES_PATH = "/Users/artemkolesnikov/Downloads/Офіційний курс гривні щодо іноземних валют.json";
-
     public static void main(String[] args) throws IOException {
-        var calculator = CalculatorFactory.build(RATES_PATH);
-        var tradeStore = TradesFactory.build(BROKER_REPORT_PATH);
+        if (args.length < 2) {
+            System.out.println("Usage: java -jar tax-calculator.jar <broker-report.xlsx> <rates.json>");
+            return;
+        }
+
+        var brokerReportPath = FileReportLoader.getAbsolutePath(args[0]);
+        var ratesPath = FileReportLoader.getAbsolutePath(args[1]);
+
+        var calculator = CalculatorFactory.build(brokerReportPath);
+        var tradeStore = TradesFactory.build(ratesPath);
 
         var taxReportBuilder = TaxReportBuilder.from(calculator, tradeStore);
 
