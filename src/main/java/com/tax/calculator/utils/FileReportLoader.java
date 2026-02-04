@@ -1,9 +1,12 @@
 package com.tax.calculator.utils;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.nio.file.Path;
 
 
+@Slf4j
 public final class FileReportLoader {
 
     private static final String BROKER_REPORT = "broker.report";
@@ -22,7 +25,7 @@ public final class FileReportLoader {
     public static File load(String path) {
         File brokerFile = Path.of(path).toFile();
 
-        System.out.println("File loaded: " + brokerFile.getAbsolutePath());
+        log.info("File loaded: {}", brokerFile.getAbsolutePath());
         return brokerFile;
     }
 

@@ -6,6 +6,7 @@ import com.tax.calculator.report.ReportWriter;
 import com.tax.calculator.trade.TradesFactory;
 import com.tax.calculator.utils.FileReportLoader;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -13,12 +14,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 public class TaxReportRunner {
 
     private static final DateTimeFormatter FILE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
 
     public static void main(String[] args) throws IOException {
+        log.info("Freedom FIFO Tax Calculator v1.0-BETA");
+
         var rates = FileReportLoader.getRatesPath();
         var brokerReport = FileReportLoader.getBrokerReport();
 

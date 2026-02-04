@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.artem'
-version = '1.0-SNAPSHOT'
+version = '1.0-BETA'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -19,6 +19,8 @@ repositories {
 dependencies {
     implementation 'org.apache.poi:poi-ooxml:5.5.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    runtimeOnly 'org.slf4j:slf4j-simple:2.0.9'
 
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
