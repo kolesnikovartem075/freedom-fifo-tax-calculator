@@ -6,6 +6,18 @@ import java.nio.file.Path;
 
 public final class FileReportLoader {
 
+    private static final String BROKER_REPORT = "broker.report";
+    private static final String RATES_FILE = "rates.file";
+
+    public static String getRatesPath() {
+        var property = SystemPropertyUtils.getPath(RATES_FILE);
+        return FileReportLoader.getAbsolutePath(property);
+    }
+
+    public static String getBrokerReport() {
+        var property = SystemPropertyUtils.getPath(BROKER_REPORT);
+        return FileReportLoader.getAbsolutePath(property);
+    }
 
     public static File load(String path) {
         File brokerFile = Path.of(path).toFile();
@@ -14,7 +26,7 @@ public final class FileReportLoader {
         return brokerFile;
     }
 
-    public static String getAbsolutePath(String path) {
+    private static String getAbsolutePath(String path) {
         var file = Path.of(path).normalize().toFile();
 
         if (!file.exists()) {
@@ -27,5 +39,4 @@ public final class FileReportLoader {
 
         return file.getAbsolutePath();
     }
-
 }

@@ -14,20 +14,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class CalculationRunner {
+public class TaxReportRunner {
 
     private static final DateTimeFormatter FILE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 2) {
-            throw new IllegalArgumentException("Usage: java -jar tax-calculator.jar <broker-report.xlsx> <rates.json>");
-        }
+        var rates = FileReportLoader.getRatesPath();
+        var brokerReport = FileReportLoader.getBrokerReport();
 
-        var brokerReportPath = FileReportLoader.getAbsolutePath(args[0]);
-        var ratesPath = FileReportLoader.getAbsolutePath(args[1]);
-
-        var calculator = CalculatorFactory.build(brokerReportPath);
-        var tradeStore = TradesFactory.build(ratesPath);
+        var calculator = CalculatorFactory.build(rates);
+        var tradeStore = TradesFactory.build(brokerReport);
 
         var taxReportBuilder = TaxReportBuilder.from(calculator, tradeStore);
 
@@ -45,4 +41,17 @@ public class CalculationRunner {
         var date = LocalDateTime.now().format(FILE_DATE_FORMAT);
         return "tax-report-%s.xlsx".formatted(date);
     }
+
+    private static String requiredProperty(String name) {
+        var value = System.getProperty(name);
+
+        if (value == null || value.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Missing required JVM property: -D" + name + "=<path>"
+            );
+        }
+
+        return value;
+    }
+
 }

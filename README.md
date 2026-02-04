@@ -4,7 +4,7 @@
 
 Tax calculator for Freedom Finance broker using FIFO method. Each share is tracked individually for precise profit calculation in USD and UAH, following Ukrainian tax reporting standards.
 
-Built for personal use to automate tax reporting. If you have dozens of trades per year — this saves hours of manual work. Hundreds of trades per day? This saves you from hiring an accountant.
+Built for personal use to automate tax reporting. If you have dozens of trades per year — this saves hours of manual work or saves you from hiring an accountant.
 
 ⚠️ **Beta version.** May contain bugs. Please compare results with your previous reports before relying on this tool. Found a bug? [Open an issue](https://github.com/kolesnikovartem075/freedom-fifo-tax-calculator/issues)
 
@@ -87,7 +87,7 @@ cd freedom-fifo-tax-calculator
 ./gradlew build
 
 # Run
-./gradlew run --args="path/to/broker-report.xlsx path/to/rates.json"
+./gradlew run -Dbroker.report=path/to/broker-report.xlsx -Drates.file=path/to/rates.json
 ```
 
 ## Output
