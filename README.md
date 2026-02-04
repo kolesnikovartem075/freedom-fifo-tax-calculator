@@ -23,10 +23,12 @@ Using FIFO: first sell 10 shares at \$100 cost, then 2 shares at \$120 cost. Eac
 **Step 1: Split trades into units**
 
 When you buy/sell multiple shares in a single order, the calculator splits them into individual records. Each share keeps its own price and commission.
+For implementation details, see [TradeStore](https://github.com/kolesnikovartem075/freedom-fifo-tax-calculator/blob/main/src/main/java/com/tax/calculator/trade/unit/TradeStore.java).
 
 **Step 2: Match buy/sell using FIFO**
 
-When you sell shares, the calculator automatically takes shares from the earliest purchases first. It continues in order until the sell quantity is fully matched.
+When you sell shares, the calculator automatically takes shares from the earliest purchases first. It continues in order until the sell quantity is fully matched. For implementation details, see [TaxReportBuilder](https://github.com/kolesnikovartem075/freedom-fifo-tax-calculator/blob/main/src/main/java/com/tax/calculator/TaxReportBuilder.java).
+
 
 **Step 3: Calculate income/expense/profit per share**
 
@@ -42,7 +44,7 @@ Profit UAH = Income UAH - Expense UAH
 **Note:**
 - **Buy Rate** is the official exchange rate on the purchase date
 - **Sell Rate** is the official exchange rate on the sale date
-- For the exact implementation and logic, refer to the `PositionCalculator` class in the source code
+- For the exact implementation and logic, refer to the [PositionCalculator](https://github.com/kolesnikovartem075/freedom-fifo-tax-calculator/blob/main/src/main/java/com/tax/calculator/position/PositionCalculator.java) class in the source code
 
 **Example:**
 - Buy: \$100, commission \$0.50, rate 37.5 UAH$ (exchange rate on buy date)
