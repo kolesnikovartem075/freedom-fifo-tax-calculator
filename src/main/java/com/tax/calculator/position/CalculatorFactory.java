@@ -1,6 +1,5 @@
-package com.tax.calculator;
+package com.tax.calculator.position;
 
-import com.tax.calculator.closed.position.PositionCalculator;
 import com.tax.calculator.exchange.rate.ExchangeRateParser;
 import com.tax.calculator.exchange.rate.ExchangeRates;
 

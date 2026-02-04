@@ -1,7 +1,5 @@
-package com.tax.calculator;
+package com.tax.calculator.trade;
 
-import com.tax.calculator.trade.BrokerReportParser;
-import com.tax.calculator.trade.TradeBook;
 import com.tax.calculator.trade.unit.TradeStore;
 
 import java.io.IOException;

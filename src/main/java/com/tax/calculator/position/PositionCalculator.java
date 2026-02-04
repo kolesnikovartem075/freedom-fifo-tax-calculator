@@ -1,14 +1,13 @@
-package com.tax.calculator.closed.position;
+package com.tax.calculator.position;
 
-import com.tax.calculator.closed.position.entity.ClosedPosition;
-import com.tax.calculator.closed.position.entity.TradeDetail;
 import com.tax.calculator.exchange.rate.ExchangeRate;
 import com.tax.calculator.exchange.rate.ExchangeRates;
+import com.tax.calculator.position.entity.ClosedPosition;
+import com.tax.calculator.position.entity.TradeDetail;
 import com.tax.calculator.trade.unit.UnitTrade;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @RequiredArgsConstructor
 public class PositionCalculator {
@@ -48,7 +47,6 @@ public class PositionCalculator {
 
         return sellPriceUah.subtract(buyPriceUah)
                 .subtract(buyCommissionUah)
-                .subtract(sellCommissionUah)
-                .setScale(2, RoundingMode.HALF_UP);
+                .subtract(sellCommissionUah);
     }
 }

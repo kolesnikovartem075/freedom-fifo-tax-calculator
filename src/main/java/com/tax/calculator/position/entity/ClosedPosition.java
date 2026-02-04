@@ -1,4 +1,4 @@
-package com.tax.calculator.closed.position.entity;
+package com.tax.calculator.position.entity;
 
 import java.math.BigDecimal;
 

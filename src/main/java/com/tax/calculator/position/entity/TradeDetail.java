@@ -1,4 +1,4 @@
-package com.tax.calculator.closed.position.entity;
+package com.tax.calculator.position.entity;
 
 
 import com.tax.calculator.exchange.rate.ExchangeRate;

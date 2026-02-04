@@ -1,7 +1,9 @@
 package com.tax.calculator;
 
-import com.tax.calculator.closed.position.entity.ClosedPosition;
+import com.tax.calculator.position.CalculatorFactory;
+import com.tax.calculator.position.entity.ClosedPosition;
 import com.tax.calculator.report.ReportWriter;
+import com.tax.calculator.trade.TradesFactory;
 import com.tax.calculator.utils.FileReportLoader;
 import lombok.RequiredArgsConstructor;
 
@@ -18,8 +20,7 @@ public class CalculationRunner {
 
     public static void main(String[] args) throws IOException {
         if (args.length < 2) {
-            System.out.println("Usage: java -jar tax-calculator.jar <broker-report.xlsx> <rates.json>");
-            return;
+            throw new IllegalArgumentException("Usage: java -jar tax-calculator.jar <broker-report.xlsx> <rates.json>");
         }
 
         var brokerReportPath = FileReportLoader.getAbsolutePath(args[0]);

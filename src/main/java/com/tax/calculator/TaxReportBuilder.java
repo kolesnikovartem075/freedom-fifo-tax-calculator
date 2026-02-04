@@ -1,7 +1,7 @@
 package com.tax.calculator;
 
-import com.tax.calculator.closed.position.PositionCalculator;
-import com.tax.calculator.closed.position.entity.ClosedPosition;
+import com.tax.calculator.position.PositionCalculator;
+import com.tax.calculator.position.entity.ClosedPosition;
 import com.tax.calculator.trade.unit.TradeStore;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

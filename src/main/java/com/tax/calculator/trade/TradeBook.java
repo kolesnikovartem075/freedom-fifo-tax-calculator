@@ -10,7 +10,7 @@ import java.util.*;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class TradeBook {
 
-    private final Map<String, TradeQueues> trades = new HashMap<>();
+    private final Map<String, TradeQueues> trades = new LinkedHashMap<>();
 
     public static TradeBook fromRows(List<TradeRow> rows) {
         var entity = new TradeBook();
