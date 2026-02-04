@@ -61,7 +61,7 @@ Profit UAH = 6150 - 3789.25 = ₴2360.75
 
 ## Input Files
 
-### 1. Broker Report
+### 1. Broker Report (-Dbroker.report=path/to/broker-report.xlsx)
 Excel file exported from Freedom Finance with trade history.
 
 **How to export:**
@@ -72,7 +72,7 @@ Excel file exported from Freedom Finance with trade history.
 
 **Important:** export the complete trade history from the beginning — FIFO calculations rely on all previous buy transactions.
 
-### 2. Exchange Rates
+### 2. Exchange Rates (-Drates.file=path/to/rates.json)
 JSON file with official NBU (National Bank of Ukraine) exchange rates.
 
 **How to get:**
