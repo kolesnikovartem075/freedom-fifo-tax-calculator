@@ -8,6 +8,5 @@ public record ClosedPosition(
         TradeDetail buy,
         TradeDetail sell,
         BigDecimal profitUsd,
-        BigDecimal profitUah
-) {
-}
+        ProfitSummary profitUah
+) {}

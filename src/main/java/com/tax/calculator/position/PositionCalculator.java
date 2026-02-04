@@ -3,6 +3,7 @@ package com.tax.calculator.position;
 import com.tax.calculator.exchange.rate.ExchangeRate;
 import com.tax.calculator.exchange.rate.ExchangeRates;
 import com.tax.calculator.position.entity.ClosedPosition;
+import com.tax.calculator.position.entity.ProfitSummary;
 import com.tax.calculator.position.entity.TradeDetail;
 import com.tax.calculator.trade.unit.UnitTrade;
 import lombok.RequiredArgsConstructor;
@@ -12,16 +13,14 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class PositionCalculator {
 
-
     private final ExchangeRates exchangeRates;
-
 
     public ClosedPosition getProfit(String ticker, UnitTrade buy, UnitTrade sell) {
         TradeDetail buyDetail = buildDetail(buy);
         TradeDetail sellDetail = buildDetail(sell);
 
         BigDecimal profitUsd = calcProfitUsd(buyDetail, sellDetail);
-        BigDecimal profitUah = calcProfitUah(buyDetail, sellDetail);
+        ProfitSummary profitUah = calcProfitSummary(buyDetail, sellDetail);
 
         return new ClosedPosition(ticker, 1, buyDetail, sellDetail, profitUsd, profitUah);
     }
@@ -38,15 +37,21 @@ public class PositionCalculator {
                 .subtract(sell.commissionPerUnit());
     }
 
-    private BigDecimal calcProfitUah(TradeDetail buy, TradeDetail sell) {
-        BigDecimal sellPriceUah = sell.pricePerUnit().multiply(sell.exchangeRate().rate());
-        BigDecimal buyPriceUah = buy.pricePerUnit().multiply(buy.exchangeRate().rate());
+    private ProfitSummary calcProfitSummary(TradeDetail buy, TradeDetail sell) {
+        BigDecimal income = getIncomeUah(sell);
+        BigDecimal expense = getExpenseUah(buy, sell);
+        BigDecimal profit = income.subtract(expense);
 
-        BigDecimal buyCommissionUah = buy.commissionPerUnit().multiply(buy.exchangeRate().rate());
-        BigDecimal sellCommissionUah = sell.commissionPerUnit().multiply(sell.exchangeRate().rate());
+        return new ProfitSummary(income, expense, profit);
+    }
 
-        return sellPriceUah.subtract(buyPriceUah)
-                .subtract(buyCommissionUah)
-                .subtract(sellCommissionUah);
+    private static BigDecimal getExpenseUah(TradeDetail buy, TradeDetail sell) {
+        return buy.pricePerUnit().multiply(buy.exchangeRate().rate())
+                .add(buy.commissionPerUnit().multiply(buy.exchangeRate().rate()))
+                .add(sell.commissionPerUnit().multiply(sell.exchangeRate().rate()));
+    }
+
+    private static BigDecimal getIncomeUah(TradeDetail sell) {
+        return sell.pricePerUnit().multiply(sell.exchangeRate().rate());
     }
 }

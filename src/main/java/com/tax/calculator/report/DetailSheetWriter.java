@@ -9,7 +9,6 @@ import java.util.List;
 
 public class DetailSheetWriter {
 
-
     static final String SHEET_NAME = "Tax Report";
 
     private static final String[] HEADERS = {
@@ -22,6 +21,8 @@ public class DetailSheetWriter {
             "Ціна продажу (USD)",
             "Комісія продажу (USD)",
             "Прибуток (USD)",
+            "Дохід (UAH)",
+            "Витрати (UAH)",
             "Прибуток (UAH)"
     };
 
@@ -60,7 +61,9 @@ public class DetailSheetWriter {
         setNumberCell(row, 6, position.sell().pricePerUnit(), format.number());
         setNumberCell(row, 7, position.sell().commissionPerUnit(), format.number());
         setNumberCell(row, 8, position.profitUsd(), format.number());
-        setNumberCell(row, 9, position.profitUah(), format.number());
+        setNumberCell(row, 9, position.profitUah().income(), format.number());
+        setNumberCell(row, 10, position.profitUah().expense(), format.number());
+        setNumberCell(row, 11, position.profitUah().profit(), format.number());
     }
 
     private void setDateCell(Row row, int col, LocalDateTime value, CellStyle style) {

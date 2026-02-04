@@ -11,11 +11,13 @@ public class SummarySheetWriter {
             "Тікер",
             "Кількість",
             "Прибуток (USD)",
+            "Дохід (UAH)",
+            "Витрати (UAH)",
             "Прибуток (UAH)"
     };
 
-    // Detail sheet columns: B=Кількість, I=Прибуток USD, J=Прибуток UAH
-    private static final String[] DETAIL_COLUMNS = {"B", "I", "J"};
+    // Detail sheet columns: B=Кількість, I=Прибуток USD, J=Дохід UAH, K=Витрати UAH, L=Прибуток UAH
+    private static final String[] DETAIL_COLUMNS = {"B", "I", "J", "K", "L"};
 
     public void write(Workbook workbook, List<ClosedPosition> positions, CellFormat cellFormat) {
         Map<Integer, List<String>> yearTickers = collectYearTickers(positions);
@@ -64,6 +66,10 @@ public class SummarySheetWriter {
             String colLetter = String.valueOf((char) ('A' + col));
             Cell cell = row.createCell(col);
             cell.setCellFormula(String.format("SUM(%s2:%s%d)", colLetter, colLetter, tickerCount + 1));
+
+            if (col > 1) {
+                cell.setCellStyle(format.number());
+            }
         }
     }
 
