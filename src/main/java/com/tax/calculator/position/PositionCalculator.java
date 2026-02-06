@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * Calculates profit for a closed position (single share).
+ * Computes profit in USD and UAH using NBU exchange rates on trade dates.
+ */
 @RequiredArgsConstructor
 public class PositionCalculator {
 

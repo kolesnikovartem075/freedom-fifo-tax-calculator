@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parses Freedom Finance broker report (Excel) into a list of trade rows.
+ * Reads from the sheet with "Trades" prefix, skipping headers and empty rows.
+ */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class BrokerReportParser {
 

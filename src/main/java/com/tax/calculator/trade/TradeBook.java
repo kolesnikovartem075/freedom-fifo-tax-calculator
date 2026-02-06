@@ -6,6 +6,10 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 
+/**
+ * Groups raw broker trade rows by ticker into buy and sell queues.
+ * Preserves insertion order using LinkedHashMap.
+ */
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class TradeBook {

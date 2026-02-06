@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+/**
+ * Stores unit trades grouped by ticker.
+ * Provides buy and sell queues for FIFO matching.
+ */
 public class TradeStore {
 
     private final Map<String, UnitTradeQueues> trades;

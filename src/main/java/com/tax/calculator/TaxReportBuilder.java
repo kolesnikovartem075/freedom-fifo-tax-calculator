@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Matches buy and sell trades using FIFO (First In, First Out) method.
+ * Iterates over each ticker and pairs sells with the earliest available buys.
+ */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class TaxReportBuilder {
 

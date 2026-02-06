@@ -10,6 +10,10 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Splits a multi-share trade into individual unit trades.
+ * Each unit keeps the original price and gets an equal share of the commission.
+ */
 public class UnitTradeFactory {
 
 
