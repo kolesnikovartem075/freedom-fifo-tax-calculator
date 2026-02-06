@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    id "io.freefair.lombok" version "9.2.0"
+    id 'io.freefair.lombok' version '9.2.0'
 }
 
 group = 'org.artem'
@@ -17,17 +17,16 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.poi:poi-ooxml:5.5.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.0'
+    implementation 'org.apache.poi:poi-ooxml:5.5.1'
     implementation 'org.slf4j:slf4j-api:2.0.9'
     runtimeOnly 'org.slf4j:slf4j-simple:2.0.9'
 
-
-    testImplementation 'org.assertj:assertj-core:3.27.3'
+    testImplementation platform('org.junit:junit-bom:5.14.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.assertj:assertj-core:3.27.7'
     testImplementation 'org.mockito:mockito-core:5.14.2'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.14.2'
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -36,10 +35,11 @@ application {
 }
 
 run {
-    systemProperty "broker.report", System.getProperty("broker.report")
-    systemProperty "rates.file", System.getProperty("rates.file")
+    systemProperty 'broker.report', System.getProperty('broker.report')
+    systemProperty 'rates.file', System.getProperty('rates.file')
 }
 
 test {
     useJUnitPlatform()
+    jvmArgs '-XX:+EnableDynamicAgentLoading'
 }
