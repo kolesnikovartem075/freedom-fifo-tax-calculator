@@ -25,6 +25,7 @@ out/
 .settings
 .springBeans
 .sts4-cache
+.claude
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
