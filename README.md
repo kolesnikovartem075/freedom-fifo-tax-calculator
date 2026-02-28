@@ -59,7 +59,7 @@ Profit UAH = 6150 - 3789.25 = ₴2360.75
 ## Requirements
 
 - Git (only if cloning the repository)
-- Java 21 (Gradle is included via wrapper)
+- Java 25 (Gradle is included via wrapper)
 
 ## Input Files
 

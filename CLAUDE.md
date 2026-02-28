@@ -20,7 +20,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-The application is a Java 25 / Gradle CLI tool (README says Java 21, but `build.gradle` targets `VERSION_25`) that reads a Freedom Finance broker report (Excel) and NBU exchange rates (JSON), then generates a tax report Excel file using the FIFO method.
+The application is a Java 25 / Gradle CLI tool that reads a Freedom Finance broker report (Excel) and NBU exchange rates (JSON), then generates a tax report Excel file using the FIFO method.
 
 **End-to-end flow (`TaxReportRunner.main`):**
 
