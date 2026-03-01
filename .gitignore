@@ -3,21 +3,8 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-.kotlin
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### Eclipse ###
+### STS ###
 .apt_generated
 .classpath
 .factorypath
@@ -25,10 +12,18 @@ out/
 .settings
 .springBeans
 .sts4-cache
-.claude
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
 ### NetBeans ###
 /nbproject/private/
@@ -40,8 +35,9 @@ bin/
 ### VS Code ###
 .vscode/
 
-### Mac OS ###
 .DS_Store
+.claude/
 
+# Report
 *.xlsx
 *.json
