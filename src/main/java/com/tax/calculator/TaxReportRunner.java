@@ -1,11 +1,15 @@
 package com.tax.calculator;
 
-import com.tax.calculator.position.CalculatorFactory;
+import com.tax.calculator.dividend.DividendCalculator;
+import com.tax.calculator.dividend.DividendParser;
+import com.tax.calculator.dividend.DividendResult;
+import com.tax.calculator.exchange.rate.ExchangeRateParser;
+import com.tax.calculator.exchange.rate.ExchangeRates;
+import com.tax.calculator.position.PositionCalculator;
 import com.tax.calculator.position.entity.ClosedPosition;
 import com.tax.calculator.report.ReportWriter;
 import com.tax.calculator.trade.TradesFactory;
 import com.tax.calculator.utils.FileReportLoader;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -15,7 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
 public class TaxReportRunner {
 
     private static final DateTimeFormatter FILE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
@@ -26,24 +29,33 @@ public class TaxReportRunner {
         var ratesPaths = FileReportLoader.getRatesPaths();
         var brokerReport = FileReportLoader.getBrokerReport();
 
-        var calculator = CalculatorFactory.build(ratesPaths);
+        var rates = ExchangeRateParser.parse(ratesPaths);
+        var exchangeRates = ExchangeRates.from(rates);
+
+        var calculator = new PositionCalculator(exchangeRates);
         var tradeStore = TradesFactory.build(brokerReport);
-
         var taxReportBuilder = TaxReportBuilder.from(calculator, tradeStore);
+        List<ClosedPosition> positions = taxReportBuilder.collectPositions();
 
-        writeReport(taxReportBuilder.collectPositions());
+        var dividendCalculator = new DividendCalculator(exchangeRates);
+        var dividendRows = DividendParser.parse(brokerReport);
+        List<DividendResult> dividends = dividendCalculator.calculate(dividendRows);
+
+        writeReport(positions, dividends);
     }
 
-    private static void writeReport(List<ClosedPosition> positions) throws IOException {
+    private static void writeReport(List<ClosedPosition> positions,
+                                    List<DividendResult> dividends) throws IOException {
         var fileName = getFileName();
         var file = Path.of(fileName).toFile();
 
-        ReportWriter.write(positions, file);
+        ReportWriter.write(positions, dividends, file);
+        log.info("Report written: {}", file.getAbsolutePath());
     }
 
     private static String getFileName() {
         var date = LocalDateTime.now().format(FILE_DATE_FORMAT);
-        return "tax-report-%s.xlsx".formatted(date);
+        return "reports/tax-report-%s.xlsx".formatted(date);
     }
 
 }
