@@ -5,7 +5,7 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 public class DividendSheetWriter {
 
@@ -23,13 +23,56 @@ public class DividendSheetWriter {
             "Нетто (UAH)"
     };
 
+    private static final int[] SUM_COLS = {3, 4, 5, 6, 7, 8};
+
     public void write(Workbook workbook, List<DividendResult> dividends, CellFormat format) {
         Sheet sheet = workbook.createSheet(SHEET_NAME);
 
         writeHeaders(sheet, format.header());
-        writeDividends(sheet, dividends, format);
-        writeTotalRow(sheet, dividends.size(), format);
+        int nextRow = writeGroupedByYear(sheet, dividends, format);
         autoSizeColumns(sheet);
+    }
+
+    private int writeGroupedByYear(Sheet sheet, List<DividendResult> dividends, CellFormat format) {
+        Map<Integer, List<DividendResult>> byYear = groupByYear(dividends);
+        int rowNum = 1;
+
+        for (var entry : byYear.entrySet()) {
+            int year = entry.getKey();
+            List<DividendResult> yearDividends = entry.getValue();
+
+            int firstDataRow = rowNum;
+            for (DividendResult div : yearDividends) {
+                writeDividend(sheet.createRow(rowNum++), div, format);
+            }
+            int lastDataRow = rowNum;
+
+            writeYearSubtotal(sheet.createRow(rowNum++), year, firstDataRow, lastDataRow, format);
+        }
+
+        return rowNum;
+    }
+
+    private void writeYearSubtotal(Row row, int year, int firstDataRow, int lastDataRow, CellFormat format) {
+        Cell labelCell = row.createCell(0);
+        labelCell.setCellValue("Разом за " + year);
+        labelCell.setCellStyle(format.header());
+
+        for (int col : SUM_COLS) {
+            String colLetter = String.valueOf((char) ('A' + col));
+            Cell cell = row.createCell(col);
+            cell.setCellFormula("SUM(%s%d:%s%d)".formatted(
+                    colLetter, firstDataRow + 1, colLetter, lastDataRow));
+            cell.setCellStyle(format.number());
+        }
+    }
+
+    private Map<Integer, List<DividendResult>> groupByYear(List<DividendResult> dividends) {
+        Map<Integer, List<DividendResult>> result = new TreeMap<>();
+        for (DividendResult div : dividends) {
+            result.computeIfAbsent(div.paymentDate().getYear(), k -> new ArrayList<>()).add(div);
+        }
+        return result;
     }
 
     private void writeHeaders(Sheet sheet, CellStyle style) {
@@ -38,12 +81,6 @@ public class DividendSheetWriter {
             Cell cell = row.createCell(i);
             cell.setCellValue(HEADERS[i]);
             cell.setCellStyle(style);
-        }
-    }
-
-    private void writeDividends(Sheet sheet, List<DividendResult> dividends, CellFormat format) {
-        for (int i = 0; i < dividends.size(); i++) {
-            writeDividend(sheet.createRow(i + 1), dividends.get(i), format);
         }
     }
 
@@ -57,21 +94,6 @@ public class DividendSheetWriter {
         setNumberCell(row, 6, div.grossAmountUah(), format.number());
         setNumberCell(row, 7, div.foreignTaxUah(), format.number());
         setNumberCell(row, 8, div.netAmountUah(), format.number());
-    }
-
-    private void writeTotalRow(Sheet sheet, int dataRows, CellFormat format) {
-        Row row = sheet.createRow(dataRows + 1);
-        Cell labelCell = row.createCell(0);
-        labelCell.setCellValue("Total");
-        labelCell.setCellStyle(format.header());
-
-        int[] sumCols = {3, 4, 5, 6, 7, 8};
-        for (int col : sumCols) {
-            String colLetter = String.valueOf((char) ('A' + col));
-            Cell cell = row.createCell(col);
-            cell.setCellFormula("SUM(%s2:%s%d)".formatted(colLetter, colLetter, dataRows + 1));
-            cell.setCellStyle(format.number());
-        }
     }
 
     private void setDateCell(Row row, int col, LocalDate value, CellStyle style) {
