@@ -23,10 +23,10 @@ public class TaxReportRunner {
     public static void main(String[] args) throws IOException {
         log.info("Freedom FIFO Tax Calculator v1.0-BETA");
 
-        var rates = FileReportLoader.getRatesPath();
+        var ratesPaths = FileReportLoader.getRatesPaths();
         var brokerReport = FileReportLoader.getBrokerReport();
 
-        var calculator = CalculatorFactory.build(rates);
+        var calculator = CalculatorFactory.build(ratesPaths);
         var tradeStore = TradesFactory.build(brokerReport);
 
         var taxReportBuilder = TaxReportBuilder.from(calculator, tradeStore);
@@ -44,18 +44,6 @@ public class TaxReportRunner {
     private static String getFileName() {
         var date = LocalDateTime.now().format(FILE_DATE_FORMAT);
         return "tax-report-%s.xlsx".formatted(date);
-    }
-
-    private static String requiredProperty(String name) {
-        var value = System.getProperty(name);
-
-        if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Missing required JVM property: -D" + name + "=<path>"
-            );
-        }
-
-        return value;
     }
 
 }

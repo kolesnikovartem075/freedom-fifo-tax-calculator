@@ -54,8 +54,11 @@ class UnitTradeFactoryTest {
                 .quantity(quantity)
                 .price(new BigDecimal(price))
                 .total(new BigDecimal(price).multiply(BigDecimal.valueOf(quantity)))
+                .currency("USD")
                 .commission(new BigDecimal(commission))
+                .commissionCurrency("EUR")
                 .tradeDate(TRADE_DATE)
+                .settlementDate(TRADE_DATE.toLocalDate().plusDays(1))
                 .build();
     }
 }

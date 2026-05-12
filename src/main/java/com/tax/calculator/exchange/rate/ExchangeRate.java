@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public record ExchangeRate(
         LocalDate date,
+        String currency,
         BigDecimal rate
 ) {
 }

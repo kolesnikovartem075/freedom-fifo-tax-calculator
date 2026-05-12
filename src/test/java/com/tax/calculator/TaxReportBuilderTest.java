@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +27,7 @@ import static org.mockito.Mockito.*;
 class TaxReportBuilderTest {
 
     private static final LocalDateTime BASE_DATE = LocalDateTime.of(2024, 3, 15, 10, 0);
+    private static final LocalDate BASE_SETTLEMENT = LocalDate.of(2024, 3, 16);
     private static final String AAPL_US = "AAPL.US";
 
     @Mock
@@ -43,9 +45,9 @@ class TaxReportBuilderTest {
 
     @BeforeEach
     void setUp() {
-        earlyBuy = unitTrade(TradeOperation.BUY, "100", BASE_DATE);
-        lateBuy = unitTrade(TradeOperation.BUY, "120", BASE_DATE.plusMonths(2));
-        sell = unitTrade(TradeOperation.SELL, "150", BASE_DATE.plusMonths(5));
+        earlyBuy = unitTrade(TradeOperation.BUY, "100", BASE_DATE, BASE_SETTLEMENT);
+        lateBuy = unitTrade(TradeOperation.BUY, "120", BASE_DATE.plusMonths(2), BASE_SETTLEMENT.plusMonths(2));
+        sell = unitTrade(TradeOperation.SELL, "150", BASE_DATE.plusMonths(5), BASE_SETTLEMENT.plusMonths(5));
 
         when(tradeStore.getTickers()).thenReturn(Set.of(AAPL_US));
         when(tradeStore.getSells(AAPL_US)).thenReturn(new LinkedList<>(List.of(sell)));
@@ -71,8 +73,10 @@ class TaxReportBuilderTest {
                 .hasMessageContaining(AAPL_US);
     }
 
-    private static UnitTrade unitTrade(TradeOperation op, String price, LocalDateTime date) {
-        return new UnitTrade(op, new BigDecimal(price), new BigDecimal("0.50"), date);
+    private static UnitTrade unitTrade(TradeOperation op, String price,
+                                       LocalDateTime tradeDate, LocalDate settlementDate) {
+        return new UnitTrade(op, new BigDecimal(price), new BigDecimal("0.50"),
+                "USD", "EUR", tradeDate, settlementDate);
     }
 
     private static ClosedPosition closedPosition(String ticker) {

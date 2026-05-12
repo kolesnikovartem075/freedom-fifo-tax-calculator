@@ -84,7 +84,7 @@ public class SummarySheetWriter {
         Map<Integer, LinkedHashSet<String>> yearTickerSets = new TreeMap<>();
 
         for (ClosedPosition p : positions) {
-            int year = p.sell().tradeDate().getYear();
+            int year = p.sell().settlementDate().getYear();
             yearTickerSets.computeIfAbsent(year, k -> new LinkedHashSet<>()).add(p.ticker());
         }
 

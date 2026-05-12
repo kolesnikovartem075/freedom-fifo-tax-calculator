@@ -7,9 +7,8 @@ import java.io.IOException;
 
 public class CalculatorFactory {
 
-
-    public static PositionCalculator build(String path) throws IOException {
-        var rates = ExchangeRateParser.parse(path);
+    public static PositionCalculator build(String... paths) throws IOException {
+        var rates = ExchangeRateParser.parse(paths);
         var exchangeRates = ExchangeRates.from(rates);
 
         return new PositionCalculator(exchangeRates);
