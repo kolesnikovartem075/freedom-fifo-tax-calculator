@@ -9,30 +9,34 @@ import java.time.format.DateTimeFormatter;
 
 public class TradeRowMapper {
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public TradeRow map(Row row) {
         var ticker = getStringValue(row, 0);
         var operation = TradeOperationMapper.map(getStringValue(row, 3));
         var quantity = getNumericValue(row, 4);
         var price = getBigDecimalValue(row, 5);
+        var currency = getStringValue(row, 6);
         var total = getBigDecimalValue(row, 7);
         var commission = getBigDecimalValue(row, 9);
-        var tradeDate = parseDate(getStringValue(row, 11));
+        var commissionCurrency = getStringValue(row, 10);
+        var tradeDate = parseDateTime(getStringValue(row, 11));
 
         return TradeRow.builder()
                 .ticker(ticker)
                 .operation(operation)
                 .quantity(quantity)
                 .price(price)
+                .currency(currency)
                 .total(total)
                 .commission(commission)
+                .commissionCurrency(commissionCurrency)
                 .tradeDate(tradeDate)
                 .build();
     }
 
-    private LocalDateTime parseDate(String value) {
-        return LocalDateTime.parse(value.trim(), DATE_FORMAT);
+    private LocalDateTime parseDateTime(String value) {
+        return LocalDateTime.parse(value.trim(), DATE_TIME_FORMAT);
     }
 
     private String getStringValue(Row row, int col) {

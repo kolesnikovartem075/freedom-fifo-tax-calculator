@@ -71,8 +71,8 @@ class TaxReportBuilderTest {
                 .hasMessageContaining(AAPL_US);
     }
 
-    private static UnitTrade unitTrade(TradeOperation op, String price, LocalDateTime date) {
-        return new UnitTrade(op, new BigDecimal(price), new BigDecimal("0.50"), date);
+    private static UnitTrade unitTrade(TradeOperation op, String price, LocalDateTime tradeDate) {
+        return new UnitTrade(op, new BigDecimal(price), new BigDecimal("0.50"), "USD", "EUR", tradeDate);
     }
 
     private static ClosedPosition closedPosition(String ticker) {

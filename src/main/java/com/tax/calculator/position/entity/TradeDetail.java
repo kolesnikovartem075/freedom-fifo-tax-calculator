@@ -10,6 +10,7 @@ public record TradeDetail(
         BigDecimal pricePerUnit,
         BigDecimal commissionPerUnit,
         LocalDateTime tradeDate,
-        ExchangeRate exchangeRate
+        ExchangeRate exchangeRate,
+        ExchangeRate commissionExchangeRate
 ) {
 }

@@ -12,7 +12,8 @@ import java.math.BigDecimal;
 
 /**
  * Calculates profit for a closed position (single share).
- * Computes profit in USD and UAH using NBU exchange rates on trade dates.
+ * Computes profit in the trade currency and UAH using NBU exchange rates on trade dates.
+ * Uses the trade currency rate for price conversion and the commission currency rate for commission conversion.
  */
 @RequiredArgsConstructor
 public class PositionCalculator {
@@ -30,8 +31,15 @@ public class PositionCalculator {
     }
 
     private TradeDetail buildDetail(UnitTrade trade) {
-        ExchangeRate rate = exchangeRates.find(trade.tradeDate());
-        return new TradeDetail(trade.pricePerUnit(), trade.commissionPerUnit(), trade.tradeDate(), rate);
+        ExchangeRate tradeRate = exchangeRates.find(trade.currency(), trade.tradeDate().toLocalDate());
+        ExchangeRate commissionRate = exchangeRates.find(trade.commissionCurrency(), trade.tradeDate().toLocalDate());
+        return new TradeDetail(
+                trade.pricePerUnit(),
+                trade.commissionPerUnit(),
+                trade.tradeDate(),
+                tradeRate,
+                commissionRate
+        );
     }
 
     private BigDecimal calcProfitUsd(TradeDetail buy, TradeDetail sell) {
@@ -51,8 +59,8 @@ public class PositionCalculator {
 
     private static BigDecimal getExpenseUah(TradeDetail buy, TradeDetail sell) {
         return buy.pricePerUnit().multiply(buy.exchangeRate().rate())
-                .add(buy.commissionPerUnit().multiply(buy.exchangeRate().rate()))
-                .add(sell.commissionPerUnit().multiply(sell.exchangeRate().rate()));
+                .add(buy.commissionPerUnit().multiply(buy.commissionExchangeRate().rate()))
+                .add(sell.commissionPerUnit().multiply(sell.commissionExchangeRate().rate()));
     }
 
     private static BigDecimal getIncomeUah(TradeDetail sell) {

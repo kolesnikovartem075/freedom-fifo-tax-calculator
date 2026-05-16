@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 
 @Slf4j
@@ -12,9 +13,12 @@ public final class FileReportLoader {
     private static final String BROKER_REPORT = "broker.report";
     private static final String RATES_FILE = "rates.file";
 
-    public static String getRatesPath() {
+    public static String[] getRatesPaths() {
         var property = SystemPropertyUtils.getPath(RATES_FILE);
-        return FileReportLoader.getAbsolutePath(property);
+        return Arrays.stream(property.split(","))
+                .map(String::trim)
+                .map(FileReportLoader::getAbsolutePath)
+                .toArray(String[]::new);
     }
 
     public static String getBrokerReport() {

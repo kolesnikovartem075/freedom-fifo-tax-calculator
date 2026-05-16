@@ -14,6 +14,8 @@ public class TradeRow {
     private final int quantity;
     private final BigDecimal price;
     private final BigDecimal total;
+    private final String currency;
     private final BigDecimal commission;
+    private final String commissionCurrency;
     private final LocalDateTime tradeDate;
 }

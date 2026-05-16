@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -14,20 +13,22 @@ import java.util.Map;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExchangeRates {
 
-    private final Map<LocalDate, ExchangeRate> rates;
+    private final Map<String, Map<LocalDate, ExchangeRate>> ratesByCurrency;
 
-    public static ExchangeRates from(Map<LocalDate, ExchangeRate> map) {
-        return new ExchangeRates(map);
+    public static ExchangeRates from(Map<String, Map<LocalDate, ExchangeRate>> ratesByCurrency) {
+        return new ExchangeRates(ratesByCurrency);
     }
 
-    public ExchangeRate find(LocalDateTime dateTime) {
-        return find(dateTime.toLocalDate());
-    }
+    public ExchangeRate find(String currency, LocalDate date) {
+        var currencyRates = ratesByCurrency.get(currency);
+        if (currencyRates == null) {
+            throw new IllegalArgumentException("No exchange rates loaded for currency: " + currency);
+        }
 
-    public ExchangeRate find(LocalDate date) {
-        ExchangeRate rate = rates.get(date);
+        ExchangeRate rate = currencyRates.get(date);
         if (rate == null) {
-            throw new IllegalArgumentException("Exchange rate not found for date: " + date);
+            throw new IllegalArgumentException(
+                    "Exchange rate not found for currency %s on date: %s".formatted(currency, date));
         }
 
         return rate;

@@ -9,5 +9,7 @@ public record UnitTrade(
         TradeOperation operation,
         BigDecimal pricePerUnit,
         BigDecimal commissionPerUnit,
+        String currency,
+        String commissionCurrency,
         LocalDateTime tradeDate) {
 }

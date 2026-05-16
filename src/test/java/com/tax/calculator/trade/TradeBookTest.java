@@ -51,7 +51,9 @@ class TradeBookTest {
                 .quantity(1)
                 .price(new BigDecimal("100"))
                 .total(new BigDecimal("100"))
+                .currency("USD")
                 .commission(new BigDecimal("0.50"))
+                .commissionCurrency("EUR")
                 .tradeDate(TRADE_DATE)
                 .build();
     }
