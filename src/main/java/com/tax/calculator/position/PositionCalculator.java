@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 /**
  * Calculates profit for a closed position (single share).
- * Computes profit in the trade currency and UAH using NBU exchange rates on settlement dates.
+ * Computes profit in the trade currency and UAH using NBU exchange rates on trade dates.
  * Uses the trade currency rate for price conversion and the commission currency rate for commission conversion.
  */
 @RequiredArgsConstructor
@@ -31,13 +31,12 @@ public class PositionCalculator {
     }
 
     private TradeDetail buildDetail(UnitTrade trade) {
-        ExchangeRate tradeRate = exchangeRates.find(trade.currency(), trade.settlementDate());
-        ExchangeRate commissionRate = exchangeRates.find(trade.commissionCurrency(), trade.settlementDate());
+        ExchangeRate tradeRate = exchangeRates.find(trade.currency(), trade.tradeDate().toLocalDate());
+        ExchangeRate commissionRate = exchangeRates.find(trade.commissionCurrency(), trade.tradeDate().toLocalDate());
         return new TradeDetail(
                 trade.pricePerUnit(),
                 trade.commissionPerUnit(),
                 trade.tradeDate(),
-                trade.settlementDate(),
                 tradeRate,
                 commissionRate
         );

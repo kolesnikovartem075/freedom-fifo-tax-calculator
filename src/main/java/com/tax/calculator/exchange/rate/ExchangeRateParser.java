@@ -25,11 +25,11 @@ public class ExchangeRateParser {
     }
 
     private static void addRates(JsonNode jsonNode, Map<String, Map<LocalDate, ExchangeRate>> result) {
-        jsonNode.forEach(entry -> {
+        for (JsonNode entry : jsonNode) {
             ExchangeRate rate = ExchangeRateMapper.map(entry);
             result.computeIfAbsent(rate.currency(), k -> new HashMap<>())
                     .put(rate.date(), rate);
-        });
+        }
     }
 
     private static JsonNode getJsonNode(File json) throws IOException {

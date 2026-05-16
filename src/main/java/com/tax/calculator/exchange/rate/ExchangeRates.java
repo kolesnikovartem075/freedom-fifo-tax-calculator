@@ -6,6 +6,10 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.Map;
 
+/**
+ * Lookup for official NBU exchange rates by date.
+ * Throws if rate is missing for the requested date.
+ */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExchangeRates {
 

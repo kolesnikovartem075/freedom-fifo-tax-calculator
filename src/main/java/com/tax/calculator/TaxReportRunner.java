@@ -13,6 +13,7 @@ import com.tax.calculator.utils.FileReportLoader;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +24,7 @@ public class TaxReportRunner {
 
     private static final DateTimeFormatter FILE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
 
-    public static void main(String[] args) throws IOException {
+    static void main(String[] args) throws IOException {
         log.info("Freedom FIFO Tax Calculator v1.0-BETA");
 
         var ratesPaths = FileReportLoader.getRatesPaths();
@@ -47,10 +48,11 @@ public class TaxReportRunner {
     private static void writeReport(List<ClosedPosition> positions,
                                     List<DividendResult> dividends) throws IOException {
         var fileName = getFileName();
-        var file = Path.of(fileName).toFile();
+        var file = Path.of(fileName);
+        Files.createDirectories(file.getParent());
 
-        ReportWriter.write(positions, dividends, file);
-        log.info("Report written: {}", file.getAbsolutePath());
+        ReportWriter.write(positions, dividends, file.toFile());
+        log.info("Report written: {}", file);
     }
 
     private static String getFileName() {

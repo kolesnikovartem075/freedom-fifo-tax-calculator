@@ -55,7 +55,6 @@ class TradeBookTest {
                 .commission(new BigDecimal("0.50"))
                 .commissionCurrency("EUR")
                 .tradeDate(TRADE_DATE)
-                .settlementDate(TRADE_DATE.toLocalDate().plusDays(1))
                 .build();
     }
 }

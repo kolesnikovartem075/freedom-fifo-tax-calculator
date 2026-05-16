@@ -58,7 +58,6 @@ class UnitTradeFactoryTest {
                 .commission(new BigDecimal(commission))
                 .commissionCurrency("EUR")
                 .tradeDate(TRADE_DATE)
-                .settlementDate(TRADE_DATE.toLocalDate().plusDays(1))
                 .build();
     }
 }

@@ -38,8 +38,7 @@ public class UnitTradeFactory {
                 commissionPerUnit,
                 row.getCurrency(),
                 row.getCommissionCurrency(),
-                row.getTradeDate(),
-                row.getSettlementDate()
+                row.getTradeDate()
         );
     }
 

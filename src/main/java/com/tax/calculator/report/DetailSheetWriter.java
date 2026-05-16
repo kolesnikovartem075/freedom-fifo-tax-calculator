@@ -4,7 +4,6 @@ import com.tax.calculator.position.entity.ClosedPosition;
 import org.apache.poi.ss.usermodel.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -54,8 +53,8 @@ public class DetailSheetWriter {
         row.createCell(0).setCellValue(position.ticker());
         row.createCell(1).setCellValue(position.quantity());
 
-        setDateCell(row, 2, position.buy().settlementDate(), format.date());
-        setDateCell(row, 3, position.sell().settlementDate(), format.date());
+        setDateCell(row, 2, position.buy().tradeDate(), format.date());
+        setDateCell(row, 3, position.sell().tradeDate(), format.date());
 
         setNumberCell(row, 4, position.buy().pricePerUnit(), format.number());
         setNumberCell(row, 5, position.buy().commissionPerUnit(), format.number());
@@ -67,7 +66,7 @@ public class DetailSheetWriter {
         setNumberCell(row, 11, position.profitUah().profit(), format.number());
     }
 
-    private void setDateCell(Row row, int col, LocalDate value, CellStyle style) {
+    private void setDateCell(Row row, int col, LocalDateTime value, CellStyle style) {
         Cell cell = row.createCell(col);
         cell.setCellValue(value);
         cell.setCellStyle(style);

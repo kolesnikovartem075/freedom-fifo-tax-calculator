@@ -6,7 +6,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class CellFormatFactory {
 
-    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd";
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String NUMERIC_FORMAT = "#,##0.00";
 
     public static CellFormat createCellFormat(Workbook workbook) {

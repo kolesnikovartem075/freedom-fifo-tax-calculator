@@ -3,7 +3,6 @@ package com.tax.calculator.trade.unit;
 import com.tax.calculator.trade.TradeOperation;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record UnitTrade(
@@ -12,6 +11,5 @@ public record UnitTrade(
         BigDecimal commissionPerUnit,
         String currency,
         String commissionCurrency,
-        LocalDateTime tradeDate,
-        LocalDate settlementDate) {
+        LocalDateTime tradeDate) {
 }

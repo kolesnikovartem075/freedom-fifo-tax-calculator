@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,5 +18,4 @@ public class TradeRow {
     private final BigDecimal commission;
     private final String commissionCurrency;
     private final LocalDateTime tradeDate;
-    private final LocalDate settlementDate;
 }
