@@ -25,7 +25,7 @@ public class TaxReportRunner {
     private static final DateTimeFormatter FILE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
 
     static void main(String[] args) throws IOException {
-        log.info("Freedom FIFO Tax Calculator v1.0-BETA");
+        log.info("Freedom FIFO Tax Calculator v1.1.0");
 
         var ratesPaths = FileReportLoader.getRatesPaths();
         var brokerReport = FileReportLoader.getBrokerReport();
